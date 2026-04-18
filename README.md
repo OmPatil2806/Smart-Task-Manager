@@ -1,4 +1,4 @@
-# ⬡ Mnemosyne — Smart To-Do App
+#  Mnemosyne — Smart To-Do App
 
 > AI-powered task management with ML-predicted priorities.
 
@@ -83,7 +83,7 @@ Visit: **http://localhost:5000**
 
 ---
 
-## 🤖 ML System
+##  ML System
 
 **Model:** Gradient Boosting Classifier (scikit-learn)
 
@@ -94,7 +94,7 @@ Visit: **http://localhost:5000**
 - Due date urgency level (0–5 scale)
 - Task category encoding
 
-**Outputs:** `HIGH 🔴` / `MEDIUM 🟡` / `LOW 🟢` with confidence scores
+**Outputs:** `HIGH ` / `MEDIUM ` / `LOW ` with confidence scores
 
 **Training data:** 3,000 synthetic samples with realistic task distributions
 
@@ -126,17 +126,17 @@ CREATE TABLE tasks (
 
 ---
 
-## ✨ Features
+##  Features
 
-- ✅ User auth (signup/login/logout) with session management
-- ✅ Full task CRUD — create, read, update, delete
-- ✅ Mark tasks complete / reopen
-- ✅ ML-predicted priority with confidence scores
-- ✅ Filter by: All / Pending / Completed / Overdue / Due Today
-- ✅ Filter by priority: High / Medium / Low
-- ✅ Live search
-- ✅ Productivity score (completed / total × 100%)
-- ✅ Overdue detection
-- ✅ Task categories (Work, Study, Personal, Health, Finance, Home)
-- ✅ Real-time stats dashboard
-- ✅ Dark industrial UI with smooth animations
+-  User auth (signup/login/logout) with session management
+-  Full task CRUD — create, read, update, delete
+-  Mark tasks complete / reopen
+-  ML-predicted priority with confidence scores
+-  Filter by: All / Pending / Completed / Overdue / Due Today
+-  Filter by priority: High / Medium / Low
+-  Live search
+-  Productivity score (completed / total × 100%)
+-  Overdue detection
+-  Task categories (Work, Study, Personal, Health, Finance, Home)
+-  Real-time stats dashboard
+-  Dark industrial UI with smooth animations

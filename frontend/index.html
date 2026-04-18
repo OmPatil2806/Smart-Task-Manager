@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mnemosyne — Smart Tasks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!--  AUTH ═══ -->
+<div id="auth-screen" class="screen active">
+  <div class="auth-left">
+    <div class="auth-art">
+      <div class="art-ring r1"></div>
+      <div class="art-ring r2"></div>
+      <div class="art-ring r3"></div>
+      <div class="art-center">
+        <span class="art-icon">◎</span>
+        <p class="art-quote">"The secret of getting ahead<br>is getting started."</p>
+        <span class="art-attr">— Om Patil </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <span class="logo-mark">◎</span>
+        <span class="logo-text">Mnemosyne</span>
+      </div>
+      <h1 class="auth-heading">Welcome back</h1>
+      <p class="auth-sub">Sign in to manage your tasks intelligently.</p>
+
+      <div class="auth-tabs">
+        <button class="atab active" data-tab="login">Sign In</button>
+        <button class="atab" data-tab="signup">Create Account</button>
+      </div>
+
+      <div class="tab-panel active" id="login-panel">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="login-username" placeholder="Enter your username"/>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password"/>
+        </div>
+        <button class="btn-auth" id="login-btn">
+          Sign In
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div id="login-error" class="auth-err"></div>
+      </div>
+
+      <div class="tab-panel" id="signup-panel">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="signup-username" placeholder="Choose a username"/>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="signup-password" placeholder="At least 6 characters"/>
+        </div>
+        <button class="btn-auth" id="signup-btn">
+          Create Account
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div id="signup-error" class="auth-err"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  DASHBOARD  -->
+<div id="dashboard-screen" class="screen">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <span class="logo-mark sm">◎</span>
+      <span class="logo-text sm">Mnemosyne</span>
+    </div>
+
+    <div class="sb-user">
+      <div class="avatar" id="user-avatar">U</div>
+      <div>
+        <div class="u-name" id="sidebar-username">User</div>
+        <div class="u-role">Task Manager</div>
+      </div>
+    </div>
+
+    <div class="sb-label">Views</div>
+    <nav class="sb-nav">
+      <button class="nav-item active" data-filter="all">
+        <span class="ni-icon">⊞</span> All Tasks
+        <span class="ni-badge" id="count-all">0</span>
+      </button>
+      <button class="nav-item" data-filter="pending">
+        <span class="ni-icon">○</span> Pending
+        <span class="ni-badge" id="count-pending">0</span>
+      </button>
+      <button class="nav-item" data-filter="completed">
+        <span class="ni-icon">✓</span> Completed
+        <span class="ni-badge green" id="count-completed">0</span>
+      </button>
+      <button class="nav-item" data-filter="overdue">
+        <span class="ni-icon">!</span> Overdue
+        <span class="ni-badge red" id="count-overdue">0</span>
+      </button>
+      <button class="nav-item" data-filter="today">
+        <span class="ni-icon">◷</span> Due Today
+        <span class="ni-badge blue" id="count-today">0</span>
+      </button>
+    </nav>
+
+    <div class="sb-label" style="margin-top:24px">Priority</div>
+    <div class="sb-priority-filters">
+      <button class="pf active" data-priority="all">All</button>
+      <button class="pf" data-priority="HIGH">
+        <span class="pi high">▲</span> High
+      </button>
+      <button class="pf" data-priority="MEDIUM">
+        <span class="pi medium">◆</span> Medium
+      </button>
+      <button class="pf" data-priority="LOW">
+        <span class="pi low">▼</span> Low
+      </button>
+    </div>
+
+    <div class="sb-label" style="margin-top:24px">Settings</div>
+    <button class="nav-item" id="open-keywords-btn">
+      <span class="ni-icon">⚙</span> AI Settings
+    </button>
+
+    <div class="sb-footer">
+      <button class="btn-logout" id="logout-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="tb-left">
+        <h2 class="page-title" id="page-title">All Tasks</h2>
+        <div class="search-box">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search-input" placeholder="Search tasks…"/>
+        </div>
+      </div>
+      <button class="btn-new" id="open-modal-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Task
+      </button>
+    </header>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card productivity">
+        <div class="sc-top">
+          <span class="sc-label">Productivity Score</span>
+          <span class="sc-value" id="stat-score">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="score-bar" style="width:0%"></div>
+        </div>
+        <div class="sc-sub" id="stat-sub">0 of 0 tasks completed</div>
+      </div>
+      <div class="stat-card mini">
+        <div class="sc-mini-icon overdue-icon">!</div>
+        <div>
+          <div class="sc-mini-val" id="stat-overdue">0</div>
+          <div class="sc-mini-label">Overdue</div>
+        </div>
+      </div>
+      <div class="stat-card mini">
+        <div class="sc-mini-icon today-icon">◷</div>
+        <div>
+          <div class="sc-mini-val" id="stat-today">0</div>
+          <div class="sc-mini-label">Due Today</div>
+        </div>
+      </div>
+      <div class="stat-card mini">
+        <div class="sc-mini-icon high-icon">▲</div>
+        <div>
+          <div class="sc-mini-val" id="stat-high">0</div>
+          <div class="sc-mini-label">High Priority</div>
+        </div>
+      </div>
+      <!-- Chart card -->
+      <div class="stat-card chart-card">
+        <div class="sc-label" style="margin-bottom:8px">Priority Breakdown</div>
+        <canvas id="priority-chart" width="120" height="80"></canvas>
+      </div>
+    </div>
+
+    <!-- Task area -->
+    <div class="task-area">
+      <div id="task-list" class="task-list"></div>
+      <div id="empty-state" class="empty-state hidden">
+        <div class="es-art">◎</div>
+        <p>Nothing here yet</p>
+        <span>Click <strong>New Task</strong> to get started</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- TASK MODAL  -->
+<div id="task-modal" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="modal-title">New Task</h3>
+      <button class="modal-x" id="close-modal-btn">✕</button>
+    </div>
+
+    <input type="hidden" id="edit-task-id"/>
+
+    <div class="field">
+      <label>Title <span class="req">*</span></label>
+      <input type="text" id="task-title" placeholder="What needs to be done?"/>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="task-desc" rows="3" placeholder="Add details or notes…"></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Due Date</label>
+        <input type="date" id="task-due"/>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="task-category">
+          <option value="other">Other</option>
+          <option value="work">💼 Work</option>
+          <option value="study">📚 Study</option>
+          <option value="personal">👤 Personal</option>
+          <option value="health">❤️ Health</option>
+          <option value="finance">💰 Finance</option>
+          <option value="home">🏠 Home</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ML Panel -->
+    <div class="ml-panel">
+      <div class="ml-panel-left">
+        <span class="ml-chip">🤖 AI Priority</span>
+        <div class="ml-result">
+          <span class="priority-badge neutral" id="predicted-priority">—</span>
+        </div>
+      </div>
+      <div class="conf-bars" id="confidence-bars"></div>
+      <button class="btn-predict" id="predict-btn">Predict</button>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" id="cancel-btn">Cancel</button>
+      <button class="btn-save" id="save-task-btn">
+        <span id="save-btn-text">Create Task</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!--  KEYWORDS MODAL  -->
+<div id="keywords-modal" class="overlay hidden">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-hdr">
+      <h3>🤖 AI Priority Settings</h3>
+      <button class="modal-x" id="close-keywords-btn">✕</button>
+    </div>
+
+    <div class="kw-section">
+      <div class="kw-title">📂 Category Rules <span class="kw-hint">applied automatically</span></div>
+      <div class="cat-grid">
+        <div class="cat-card"><span class="cat-ico">💰</span><div><div class="cat-name">Finance</div><div class="cat-rule">Floor: MEDIUM · HIGH if ≤7 days</div></div></div>
+        <div class="cat-card"><span class="cat-ico">❤️</span><div><div class="cat-name">Health</div><div class="cat-rule">Floor: MEDIUM · HIGH if ≤3 days</div></div></div>
+        <div class="cat-card"><span class="cat-ico">💼</span><div><div class="cat-name">Work</div><div class="cat-rule">Floor: LOW · HIGH if ≤2 days</div></div></div>
+        <div class="cat-card"><span class="cat-ico">📚</span><div><div class="cat-name">Study</div><div class="cat-rule">Floor: LOW · HIGH if ≤3 days</div></div></div>
+        <div class="cat-card"><span class="cat-ico">🏠</span><div><div class="cat-name">Home</div><div class="cat-rule">Floor: LOW · HIGH if ≤14 days</div></div></div>
+        <div class="cat-card"><span class="cat-ico">👤</span><div><div class="cat-name">Personal</div><div class="cat-rule">Floor: LOW · HIGH if ≤30 days</div></div></div>
+      </div>
+    </div>
+
+    <div class="kw-section">
+      <div class="kw-title"><span class="pi high">▲</span> High Priority Keywords <span class="kw-hint">comma separated</span></div>
+      <textarea id="kw-high" class="kw-ta" rows="2" placeholder="e.g. visa, surgery, pitch, board"></textarea>
+    </div>
+    <div class="kw-section">
+      <div class="kw-title"><span class="pi medium">◆</span> Medium Priority Keywords <span class="kw-hint">comma separated</span></div>
+      <textarea id="kw-medium" class="kw-ta" rows="2" placeholder="e.g. gym, backup, newsletter"></textarea>
+    </div>
+    <div class="kw-section">
+      <div class="kw-title"><span class="pi low">▼</span> Low Priority Keywords <span class="kw-hint">caps priority at LOW</span></div>
+      <textarea id="kw-low" class="kw-ta" rows="2" placeholder="e.g. someday, maybe, optional"></textarea>
+    </div>
+
+    <details class="kw-defaults">
+      <summary>View built-in default keywords</summary>
+      <div class="kw-defaults-body">
+        <div><strong>HIGH:</strong> <span id="defaults-high" class="kw-tags"></span></div>
+        <div><strong>MEDIUM:</strong> <span id="defaults-medium" class="kw-tags"></span></div>
+      </div>
+    </details>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" id="cancel-keywords-btn">Cancel</button>
+      <button class="btn-save" id="save-keywords-btn">Save Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
